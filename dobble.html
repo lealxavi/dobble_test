@@ -1,0 +1,167 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <title></title>
+
+  <style>
+    body {
+      font-family: 'Arial'; 
+    }
+
+    #message {
+      text-align: center;
+      font-size: 10px;
+      color: grey;
+      height: 30px;
+    }
+
+    #arena {
+      margin: 71px auto;
+      width: 1010px;
+      }
+
+    .player {
+      display:block;
+      float:left;
+      width:400px;
+      text-align:center;
+      margin-right:100px;
+      height:50px;
+      line-height:50px;
+      background-color:#66ccff;
+      color: #FFFFFF;
+      margin-bottom: 20px;
+      border-radius: 10px;
+    }
+
+    #player2 {
+      background-color: #ff00ff;
+    }
+    .card{
+      border: 1px solid #66ccff;
+      width: 400px;
+      height: 400px;
+      border-radius: 400px;
+      position: relative;
+      display:block;
+      float:left;
+      margin-right:100px;
+    }
+    .icon{
+      width: 100px;
+      height: 100px;
+      text-align: center;
+      line-height: 100px;
+      border-radius: 400px;
+      position: absolute;
+      font-size:20px;
+    }
+
+    .pos0{ top:50px; left:90px; }
+    .pos1{ top:50px; left:210px; }
+    .pos2{ top:145px; left:40px; }
+    .pos3{ top:145px; left:150px; }
+    .pos4{ top:145px; left:260px; }
+    .pos5{ top:240px; left:90px; }
+    .pos6{ top:240px; left:210px; }
+  </style>
+</head>
+<body>
+  <div id="arena">
+    <div class="players">
+      <div id="message">Press 'A' or 'L' to add 1 point to left or right player. </div>
+
+      <div id="player1" class="player">0</div>
+      <div id="player2" class="player">0</div>
+    </div>
+  </div>
+
+  <script charset="UTF-8">
+
+      function removeRandomElement(array) {
+        var position = Math.floor((Math.random() * array.length)); 
+        return {
+          element: array[position],
+          array :  array.slice(0,position).concat(array.splice(position+1))
+        } 
+      }
+
+      function shuffle(array) {
+        var shuffled = []
+        var response = removeRandomElement(array)
+        while (response.array.length > 0 ) {
+          shuffled.push(response.element)
+          response = removeRandomElement(response.array)
+        }
+        shuffled.push(response.element)
+        return shuffled;
+      }
+
+      var elementsMaster = ['💋','👻','🤡','🕶','🦖','🌼','💧','🍏','🌞','🕸','🍁','💣','💛','⛔️','❗️','🕐','🔒','🔨','📞','🔥','⭐️','🐳','🕷','🐞','🐱','☯️']
+
+
+      function createCard(elements) {
+
+        var div = document.createElement("div")
+        div.classList.add("card")
+
+        for (var i = 0; i <= 6; ++i) {
+          var el = document.createElement("div")
+          el.classList.add("icon")
+          el.classList.add("pos"+i)
+          var style = 'font-size:' + (30 + (Math.floor((Math.random() * 52)))) +'px;'
+          style += 'transform: rotate(' + (Math.floor((Math.random() * 60)) - 30) + 'deg)';
+          el.style = style
+          el.innerHTML = elements[i]
+          div.appendChild(el)        
+        }
+        return div
+      }
+
+      function createArena() {
+
+        var masterCopy = elementsMaster.slice(0)
+
+        var response = removeRandomElement(masterCopy)
+        var repeteadElement = response.element
+
+        var elementsCardA = [].concat(repeteadElement)
+        var elementsCardB = [].concat(repeteadElement)
+
+        for (var i = 0; i <= 5; ++i) {
+          response = removeRandomElement(response.array)
+          elementsCardA.push(response.element)
+          response = removeRandomElement(response.array)
+          elementsCardB.push(response.element)
+        }
+
+        var divCardA = createCard(shuffle(elementsCardA));
+        var divCardB = createCard(shuffle(elementsCardB));
+
+        document.querySelector("#arena").appendChild(divCardA)
+        document.querySelector("#arena").appendChild(divCardB)
+      
+      }
+
+      function deleteArena() {
+        document.querySelectorAll(".card")[0].remove()
+        document.querySelectorAll(".card")[0].remove()
+      }
+
+      createArena();
+
+
+      document.addEventListener("keypress", function(e) {
+        if (e.key == 'a') {
+          document.querySelector("#player1").innerHTML = ++document.querySelector("#player1").innerHTML 
+        } else if (e.key == 'l') {
+          document.querySelector("#player2").innerHTML = ++document.querySelector("#player2").innerHTML 
+        }
+        deleteArena()
+        createArena()
+      })
+
+
+  </script>
+</body>
+</html>
