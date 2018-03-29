@@ -25,7 +25,8 @@
       float:left;
       width:400px;
       text-align:center;
-      margin-right:100px;
+      margin-left:40px;
+      margin-right:40px;
       height:50px;
       line-height:50px;
       background-color:#66ccff;
@@ -45,7 +46,8 @@
       position: relative;
       display:block;
       float:left;
-      margin-right:100px;
+      margin-left:40px;
+      margin-right:40px;
     }
     .icon{
       width: 100px;
@@ -138,6 +140,9 @@
         var divCardA = createCard(shuffle(elementsCardA));
         var divCardB = createCard(shuffle(elementsCardB));
 
+        divCardA.id = "A"
+        divCardB.id = "B"
+
         document.querySelector("#arena").appendChild(divCardA)
         document.querySelector("#arena").appendChild(divCardB)
       
@@ -159,6 +164,14 @@
         }
         deleteArena()
         createArena()
+      })
+
+      document.querySelector("#A").addEventListener("click",function(){
+        document.querySelector("#player1").innerHTML = ++document.querySelector("#player1").innerHTML
+      })
+
+      document.querySelector("#B").addEventListener("click",function(){
+        document.querySelector("#player2").innerHTML = ++document.querySelector("#player2").innerHTML
       })
 
 
